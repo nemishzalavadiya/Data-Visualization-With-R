@@ -1,0 +1,111 @@
+# DATA FRAME OPERATIONS IN R
+
+# Create data frame
+# A dataset is ~ table (list of vectors)
+id <- c(1,2,3)
+name <- c("John", "Kirk", "AJ")
+age <- c(21,27,18)
+employees <- data.frame(ID=id, Name=name, Age=age)
+employees
+
+
+#len of columns
+length(dataframename)
+
+#len of row
+length(dataframename$columnname)
+
+city <- c("New York","Chicago","London")
+address <- data.frame(ID=id, City=city)
+address
+
+more.id <- c(11,12,13)
+more.name <- c("Kira", "Jen", "Liz")
+more.age <- c(25,27,21)
+more.employees <- data.frame(ID=more.id, Name=more.name, Age=more.age)
+more.employees
+
+# ----------------------------------
+# Inspect data frames
+
+# check first few rows
+head(employees)
+
+# check some last rows
+tail(employees)
+
+# ----------------------------------
+
+# Accessing elements of data frame
+# data frames are addressed by row and columns in the matrix notation
+
+# get a value from a cell (a particular row and a particular column)
+employees[1,2] # first row, second column
+employees[1,"Name"] # first row, column by name
+employees[1,]$Name # first row, column by name
+
+# get one row
+employees[1,]
+
+# get one column
+employees[,2]
+employees[,"Name"]
+employees$Name
+
+# get multiple rows/columns (subset)
+employees[1:2,] # returns 2 rows
+employees[,1:2] # returns 2 columns
+employees[,c(1, 2)] # returns 2 columns
+employees[,c("ID", "Name")] # returns 2 columns
+
+# get rows that pass a test
+employees[employees$Age > 20, ]
+# ----------------------------------
+
+# Data Frame properties
+
+# number of rows
+nrow(employees)
+
+# number of columns
+ncol(employees)
+
+# summary stats
+summary(employees)
+
+# structure
+str(employees)
+
+# ----------------------------------
+
+# Manipulate data frame
+
+# set value
+employees[3,"Age"] <- 29
+
+# order
+employees[order(employees$Age),]
+
+# reverse order
+employees[order(employees$Age, decreasing=T),]
+
+# merging data frames
+merge(employees, address, by="ID")
+
+# add rows
+all.employees <- rbind(employees, more.employees)
+all.employees
+
+# add columns
+cbind(employees, city) # city is treated as a data frame
+
+# grouping
+# aggregate is similar to group by in SQL. Here are the # employees grouped by age
+aggregate(all.employees[,2], list(Age=all.employees$Age), FUN=length)
+
+# A column and a row of a data frame is a vector and all vector operations can be applied to it e.g. math/stats functions 
+mean(all.employees$Age)
+# ----------------------------------
+
+# Test for data frame
+is.data.frame(employees)
